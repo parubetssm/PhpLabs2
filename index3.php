@@ -79,15 +79,16 @@
 	$v = -1;
 	$g = 0;
 	$definedElementNumber = 0;
+	// ѕеребор линий заполнени€: кажда€ итераци€ - нова€ лини€
 	while($lineLenth > 0)
 	{
 		$numberLine = $numberLine + 1;
-		$priznakNapravlennosti = (int)$numberLine%4;
+		$priznakNapravlennosti = (int)$numberLine % 4;
 		//print_r($numberLine);print_r('  ');print_r($lineLenth);print_r('  ');print_r($priznakNapravlennosti);print_r('</br>');
 		print_r("<tr><td>");print_r($numberLine);print_r("</td><td>");print_r($lineLenth);print_r("</td><td>");print_r($priznakNapravlennosti);print_r("</td></tr>");
 		
 		// ƒвигаемс€ по линии, заполн€€ относ€щиес€ к ней элементы
-		for($j=1; $j<=$lineLenth; $j++)
+		for($j = 1; $j <= $lineLenth; $j++)
 		{
 			switch ($priznakNapravlennosti) 
 			{
@@ -98,11 +99,11 @@
 			};
 
 			//$arrayMatrix[$g][$v] = $numberLine;
-			$arrayMatrix[$g][$v] = substr($contentString,($definedElementNumber)%strlen($contentString),1);
+			$arrayMatrix[$g][$v] = substr($contentString, ($definedElementNumber) % strlen($contentString), 1);
 			$definedElementNumber++;			
 		};
 		
-		$priznakIzmeneniyaDliniLinii = (int)$numberLine%2;
+		$priznakIzmeneniyaDliniLinii = (int)$numberLine % 2;
 		if ($priznakIzmeneniyaDliniLinii == 1) $lineLenth = $lineLenth - 1;
 		
 	};

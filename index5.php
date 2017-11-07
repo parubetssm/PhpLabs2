@@ -30,18 +30,21 @@
 	
 <?php function getFormatedString($enteredString)
 {
+	// иллюстраци€ прин€ти€ числа (в условии говоритс€, что задано число)
 	$numericStringView = (float)$enteredString;
 	$processingString = (string)$numericStringView;
 	
 	/*print_r("<p align='left'>");
 	print_r($processingString);*/
 	
+	// дополн€ем строку справа пробелами до числа символов в строке кратного 3
 	if (strlen($processingString) %3 == 1)	{$processingString = ' '.' '.$processingString;};
 	if (strlen($processingString) %3 == 2)	{$processingString = ' '.$processingString;};
 	
 	/*print_r("<p align='left'>");
 	print_r($processingString);*/
 	
+	// определ€ем число троек цифр в числе
 	$symbolTrioCount = strlen($processingString) / 3;
 	
 	/*print_r("<p align='left'>");
@@ -50,13 +53,17 @@
 	$answerString = "";
 	print_r("<p align='left'> ќтражение процесса обработки строки, полученной из введенного числа ");
 
+	// перебираем тройки цифр числа, формиру€ на их основе новую строку
 	for($i=1; $i<=$symbolTrioCount; $i++)
 	{
+		// формируем строку, котора€ будет содержать преобразованное число
 		if ($answerString == "") {$answerString = substr($processingString,0,3);}
 		else {$answerString = $answerString.'.'.substr($processingString,0,3);};
 		
+		// вырезаем из исходной строки учтенную тройку символов
 		if ($processingString != '') {$processingString = substr($processingString,3);};
 		
+		// вывод строки, иллюстрирующей процесс обработки, как он есть на донной итерации
 		print_r("</br> номер итерации "); print_r($i);
 		print_r(" строка ответа "); print_r($answerString);
 		print_r(" исходна€ строка "); print_r($processingString);

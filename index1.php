@@ -28,15 +28,25 @@
 
 	<p align="left"> Принцип: любая перменная сводится к строковому типу, знаения обмениваются как *ето приведено ниже. Затем тип переменных восстанавливается
 
-<?php if(isset($_REQUEST['calculateButton'])) { 
-echo '<p align="left">ИСХОДНОЕ Значение 1-й переменной '.$_REQUEST['Variable1'];
-echo '<p align="left">ИСХОДНОЕ Значение 2-й переменной '.$_REQUEST['Variable2'];
-$_REQUEST['Variable1'] = $_REQUEST['Variable1'].$_REQUEST['Variable2'];
- echo '<p align="left">ПРОМЕЖУТОЧНОЕ Значение 1-й переменной '.$_REQUEST['Variable1']; 
-$_REQUEST['Variable2'] = substr($_REQUEST['Variable1'],0,strlen($_REQUEST['Variable1'])-strlen($_REQUEST['Variable2']));
-$_REQUEST['Variable1'] = substr($_REQUEST['Variable1'],strlen($_REQUEST['Variable2']));
-echo '<p align="left" style="color:green">ИТОГОВОЕ Значение 1-й переменной '.$_REQUEST['Variable1'];
-echo '<p align="left" style="color:green">ИТОГОВОЕ Значение 2-й переменной '.$_REQUEST['Variable2'];
+<?php 
+
+if(isset($_REQUEST['calculateButton'])) 
+{
+		// ввывод начальных значений
+	echo '<p align="left">ИСХОДНОЕ Значение 1-й переменной '.$_REQUEST['Variable1'];
+	echo '<p align="left">ИСХОДНОЕ Значение 2-й переменной '.$_REQUEST['Variable2'];
+	
+	// складываем значения двух переменных в одну
+	$_REQUEST['Variable1'] = $_REQUEST['Variable1'].$_REQUEST['Variable2'];
+	 echo '<p align="left">ПРОМЕЖУТОЧНОЕ Значение 1-й переменной '.$_REQUEST['Variable1']; 
+	 
+	 // вырезание из строки, содержащей оба значения отдельных строк, ранее туда сложенных
+	$_REQUEST['Variable2'] = substr($_REQUEST['Variable1'],0,strlen($_REQUEST['Variable1'])-strlen($_REQUEST['Variable2']));
+	$_REQUEST['Variable1'] = substr($_REQUEST['Variable1'],strlen($_REQUEST['Variable2']));
+	
+	// вывод полученных строк
+	echo '<p align="left" style="color:green">ИТОГОВОЕ Значение 1-й переменной '.$_REQUEST['Variable1'];
+	echo '<p align="left" style="color:green">ИТОГОВОЕ Значение 2-й переменной '.$_REQUEST['Variable2'];
 ?>
 	
 <?php } else { ?>

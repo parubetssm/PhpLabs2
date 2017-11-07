@@ -37,22 +37,26 @@
 <?php 
 function getArray($contentString)
 {
+	// получаем массив на основе введенной строки
 	$_givenArray = explode(",",trim($contentString));
 	
 	$arraySize = count($_givenArray);
 	
+	// объявляем массив луж
 	$pools = array();
 	
 	if ($arraySize < 3)
 	{
+		// ни одной лужи быть не может
 		$pools = array();
 	}
 	else
 	{
+		// задание индексов первых сравниваемых элементов массива
 		$poolStart = 0;
 		$poolEnd = 1;
 		
-		// перебираем *елементы на предмет налиия правее них озер (pools); для каждого рассматриваемого
+		// перебираем *елементы на предмет наличия правее них озер (pools); для каждого рассматриваемого
 		//*елемента фиксируем начало озера (pool) справа от этого элемента
 		while($poolStart <= $arraySize - 1)
 		//	идем слева направо вдоль *елементов массива, рассматривая текущий и следующий *елемент
@@ -83,7 +87,7 @@ function getArray($contentString)
 				echo "s";
 				echo (string)$_givenArray[$poolStart]."(".(string)$poolStart.")"."|";
 				// проброс до ближайшего минимума
-				while(($poolEnd <= $arraySize - 1)&&($_givenArray[$poolEnd]<=$_givenArray[$poolEnd-1]))
+				while(($poolEnd <= $arraySize - 1) && ($_givenArray[$poolEnd] <= $_givenArray[$poolEnd-1]))
 				{
 					echo (string)$_givenArray[$poolEnd]."(".(string)$poolEnd.")".":";
 					$poolEnd++;
@@ -114,9 +118,9 @@ function getArray($contentString)
 					//	найден правый край озера меньше рассматриваемого *елемента
 					{
 						$pool = array();
-						array_push($pool,$poolStart);
-						array_push($pool,$poolEndMax);
-						array_push($pools,$pool);
+						array_push($pool, $poolStart);
+						array_push($pool, $poolEndMax);
+						array_push($pools, $pool);
 						if ($poolEndMax < $arraySize - 2) 
 						{
 							$poolStart = $poolEndMax;
@@ -147,9 +151,9 @@ function getArray($contentString)
 				//	Правее рассматриваемого *елемента найден правый край озера больше рассматриваемого *елемента или равный ему
 				{
 					$pool = array();
-					array_push($pool,$poolStart);
-					array_push($pool,$poolEnd+1);
-					array_push($pools,$pool);
+					array_push($pool, $poolStart);
+					array_push($pool, $poolEnd+1);
+					array_push($pools, $pool);
 					if ($poolEndMax < $arraySize - 2) 
 					{
 						$poolStart = $poolEnd + 1;
@@ -196,6 +200,7 @@ function getArray($contentString)
 			$s = $s + $_givenArray[$minBorder] - $_givenArray[$j];
 		};
 		
+		// печать информации по найденному озеру
 		print_r("<p align = 'left'>");print_r("<p align = 'left'>");print_r((string)$_givenArray[$pool[0]]);print_r("[");print_r((string)$pool[0]);print_r("] - ");
 		print_r((string)$_givenArray[$pool[1]]);print_r("[");print_r((string)$pool[1]);print_r("] : Объем ");print_r((string)$s);
 		

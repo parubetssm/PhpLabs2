@@ -35,6 +35,7 @@ function getPolandNotationString($enteredString)
 {
 	$_givenArray = explode(" ",$enteredString);
 
+	// защита от ситуации минуса в начале строки (когда "-", " ", "число")
 	if ($_givenArray[0] == "-")
 	{
 		// ”дал€ем "-" - первый элемент массива
@@ -51,17 +52,21 @@ function getPolandNotationString($enteredString)
 		/*print_r($_givenArray); print_r('</br>');*/
 	};
 
+	// вывод на страницу исходных данных
 	print_r("<p align='left'>ћассив, принимающий введенную строку:"); print_r('</br>');
 	print_r($_givenArray); print_r('</br>');
 
 	$_steckArray = array();
 	$_operationSymbolArray = array('*','/','+','-');
 
+	// вывод шапки таблицы, отражающей пор€док обработки
 	print_r("<p align='left'>ѕор€док обработки:"); print_r('</br>');
 	echo '<table border="1">';
 	echo '<td>'; print_r("»звлекаемый элемент");	echo '</td>';
 	echo '<td>'; print_r("»сходный массив после извлечени€");				echo '</td>';
 	echo '<td>'; print_r("—тек после добавлени€ извлекаемого элемента");				echo '</td>';
+	
+	// работа со стеком: извлекаем по элементу из исходного массива до тех пор, пока он не станет пуст
 	while(count($_givenArray) > 0)
 	{
 		echo '<tr>';
@@ -69,10 +74,13 @@ function getPolandNotationString($enteredString)
 		/*print_r($shiftingArrayElement.'</br>');*/
 		if (! in_array($shiftingArrayElement,$_operationSymbolArray))
 		{
+			// если из массива считано число, то помещаем его в стек
 			array_push($_steckArray,(float)$shiftingArrayElement);
 		}
 		else
 		{
+			// если считанный из массива элемент обозначает действие, то вынимаем из стека 2 числа и производим 
+			// данное действие; результат помещаем обратно в стек
 			$variableForCalculate1 = array_pop($_steckArray);
 			$variableForCalculate2 = array_pop($_steckArray);
 			
@@ -86,12 +94,14 @@ function getPolandNotationString($enteredString)
 			
 			array_push($_steckArray,$calculateResult);
 			/*print_r($_steckArray);*/
-		}
+		};
+		
+		// печать строки в таблицу, иллюстрирующую расчеты
 		echo '<td>'; print_r($shiftingArrayElement);	echo '</td>';
 		echo '<td>'; print_r($_givenArray);				echo '</td>';
 		echo '<td>'; print_r($_steckArray);				echo '</td>';
 		echo '</tr>';	
-	}
+	};
 	echo '</table>';
 }
 

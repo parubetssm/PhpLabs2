@@ -43,31 +43,38 @@ You can not use permutations to generate the possible words.
 <?php 
 function getAllAnagrams($angrammString)
 {
+	// считываем текстовый файл в строковую переменную
 	$forSearchingString = file_get_contents('words.txt');
 	//print_r("<p align='left'>");print_r($forSearchingString);
 	
+	// сводим строки, в которой и по котрой будет вестись поиск анаграмм, к нижнему регистру символов
 	$lowRegistrAngrammString = strtolower($angrammString);
 	$lowRegistrForSearchingString = strtolower($forSearchingString);
 	$anagramStringLenth = strlen($lowRegistrAngrammString);
 	
+	// защищаемся от пустой строки, по которой будет вестись поиск
 	if(strlen(trim($lowRegistrAngrammString)) <> 0)
 	{
+		// если строка, для которой будут разыскиваться анаграммы, не пуста, то производим поиск
+		// строка с информацией из файла сводится в массив, сортируется, сводится обратно к строке
 		$lowRegistrAngrammStringArray = str_split($lowRegistrAngrammString);
 		asort($lowRegistrAngrammStringArray);
 		$sortLowRegistrAngrammString = implode("", $lowRegistrAngrammStringArray);
 		
 		print_r("<p align='left'> Найденные анаграммы: ");
 		
+		// из стоковой переменной, содержащей текст из файла, начинают вырезаться слова аналогичные по длине строке, по которой будет вестись поиск
 		for($i = 0; $i <= strlen($lowRegistrForSearchingString) - 1 - $anagramStringLenth; $i++)
 		{
 			$fileCopySubstring = substr($lowRegistrForSearchingString, $i, $anagramStringLenth);
-			//print_r("<p align='left'>");print_r($i);print_r(" ");print_r($fileCopySubstring);
+			//каждая полученная подстрока сводится к массиву, сортируется, сводится обратно к строке
 			$arrayForSearching = str_split($fileCopySubstring);
 			asort($arrayForSearching);
 			$sortLowRegistrForSearchingSubstring = implode("", $arrayForSearching);
+			// сравнение строки по которой ведется поиск, и подстроки, полученной из файла
 			if (strcmp($sortLowRegistrForSearchingSubstring,$sortLowRegistrAngrammString) == 0)
 			{
-				//
+				// если строки одинаковы, то найдена анаграмма, выводим ее
 				print_r("<p align='left'>Позиия ");print_r(" ");print_r($i);print_r(" ");print_r($fileCopySubstring);print_r("; ");
 			};
 		};
