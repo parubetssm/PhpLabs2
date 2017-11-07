@@ -1,0 +1,144 @@
+<HTML>
+<head>
+
+</head>
+
+<BODY>
+<div align="center" width = "100%">
+<h2>Лабораторная работа №4</h2>
+<h4 align="left">Задание</h4>
+<p align="left"> Есть крыша различной высоты. Картинка представлена массивом целых чисел, где индекс — это точка на оси X, а значение каждого индекса — это глубина крыши (значение по оси Y). Картинке выше соответствует массив [2,5,1,2,3,4,7,7,6].
+<p align="left">Теперь представьте: идет дождь. Сколько воды соберется в «лужах» между пазами крыши? Мы считаем единицей объема воды квадратный блок 1х1. На картинке выше все, что расположено слева от точки 1, выплескивается. Вода справа от точки 7 также прольется. У нас остается лужа между 1 и 6 — таким образом, получившийся объем воды равен 10.
+Ввести дополнительный угол в градусах, на который наклонена крыша (влево или вправо). 
+
+
+	<div align="center"  width = "100%">
+		
+		<h4 align="left">Входящие данные</h4>
+		<FORM method="POST" ACTION="index.php" align="left" >
+			<p align="left"> Введите строку для заполнения массива, разделяя *елементы массива пробелами</br>
+				<input type="text" name="arrayString" size="10"></input>
+			<p align="center"> 
+				<input type="submit" name="calculateButton" value="Решить"></input>
+		</form>
+	</div>
+
+
+	<div align="center"  width = "100%">
+	
+		<h4  align="left"> Результаты работы скрипта</h4>
+
+
+	
+<?php 
+function getArray($contentString)
+{
+	$_givenArray = explode(" ",$contentString);
+	$pools = array();
+	
+	$arraySize = count($_givenArray);
+	//if(count($_givenArray)<=2) ...
+	
+	$poolStart = 0;
+	$poolEnd = 1;
+	
+	// перебираем *елементы на предмет налиия правее них озер (pools); для каждого рассматриваемого
+	//*елемента находим ближайшее озеро (pool) справа от него
+	while($poolStart <= $arraySize - 1)
+	//	идем слева направо вдоль *елементов массива, рассматривая текущий и следующий *елемент
+	{
+		// индекс *елемента области справа, лежащей ниже рассматриваемого *елемента
+		//$poolEndMax = -1;
+		
+		if($_givenArray[$poolStart]<=$_givenArray[$poolEnd])
+		// Если правее рассматриваемого *елемента находится *елемент выше (Идем в область выше), то озера правее
+		// пока не намечается. В *етом слуае просто переходим к следующему *елементу
+		{
+			echo (string)$_givenArray[$poolStart]."->";
+			$poolStart = $poolEnd;
+			$poolEnd = $poolStart + 1;
+			
+		}
+		else
+		{	
+			// Если правее рассматриваемого *елемента находится *елемент меньше/ниже, то правее
+			// может быть озеро. В *етом случае Идем в/Спускаемся в/исследуем область ниже рассматриваемого *елемента 
+			// вплоть до нахождения правого берега
+			echo (string)$poolStart."|";
+			$poolEndMax = $poolEnd;
+			while(($_givenArray[$poolStart] > $_givenArray[$poolEnd]) &&($poolEnd < $arraySize - 1))  //<=
+			{
+				echo (string)$_givenArray[$poolEnd].":";
+				$poolEnd = $poolEnd + 1;
+				if($poolEnd > $poolEndMax) $poolEndMax = $poolEnd;
+			
+			};
+			echo (string)$_givenArray[$poolStart].":";
+			
+			// Постобработка поиска/прохода до правого края озера		
+			if(($poolEndMax > -1)&&($poolEnd == $arraySize - 1))
+			//	Все *лементы правее рассматриваемого меньше *етого рассматриваемого *елемента
+			{
+				if($poolEndMax <> $poolStart + 1)
+				//	правее рассматриваемого *елемента вплоть до конца массива область ниже, но есть максимум, т.е.
+				//	найден правый край озера меньше рассматриваемого *елемента
+				{
+					$pool = array();
+					array_push($pool,$poolStart);
+					array_push($pool,$poolEndMax);
+					array_push($pools,$pool);
+					$poolStart = $poolEndMax + 1;
+					$poolEnd = $poolStart + 1;
+				}
+				else
+				//	правее рассматриваемого *елемента идет снижение без максимумов до конца массива: 
+				//	правый край у озера отсутствует
+				{
+					// Вводим знаение, вынуждающее завершиться цикл перебора области ниже (внутренний цикл)
+					$poolEnd = $arraySize;
+					// Вводим знаение, вынуждающее завершиться цикл перебора рассматриваемых *елементов (внешний цикл)
+					$poolStart = $arraySize;
+				};
+			}
+			elseif(($poolEndMax > -1)&&($poolEnd != $arraySize - 1))
+			//	Правее рассматриваемого *елемента найден правый край озера больше рассматриваемого *елемента
+			{
+				$pool = array();
+				array_push($pool,$poolStart);
+				array_push($pool,$poolEnd);
+				array_push($pools,$pool);
+				$poolStart = $poolEnd + 1;
+				$poolEnd = $poolStart + 1;
+			}
+			else {};
+		};
+	}
+	print_r("<p align='left'");
+	print_r($pools);
+}
+
+if(isset($_REQUEST['calculateButton'])) 
+{ 
+	print_r("<p align='left'> Введенная строка-заполнитель: "); print_r($_REQUEST['arrayString']); 	
+	
+	print_r("<p align='left'>");
+	
+	getArray($_REQUEST['arrayString']);
+	
+	
+?>
+	
+<?php } else { ?>
+	<p align="left"> Расчеты пока не выполнялись. Нажатие кнопки "Решить" не производилось
+	
+<?php }; ?>
+
+				
+		
+	</div>
+
+	</div>
+
+
+</BODY>
+</HTML>
