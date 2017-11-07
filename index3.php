@@ -26,9 +26,11 @@
 	
 		<h4  align="left"> –езультаты работы скрипта</h4>
 
-	<p align="left"> ¬веденна€ размерность массива: <?php print_r($_REQUEST['arraySize']); ?>
+	<p align="left"> ¬веденна€ размерность массива: <?php if(isset($_REQUEST['arraySize'])) print_r($_REQUEST['arraySize']); ?>
 	
-	<p align="left"> ¬веденна€ строка-заполнитель: <?php print_r($_REQUEST['arrayContentString']); ?>
+	<p align="left"> ¬веденна€ строка-заполнитель: <?php if(isset($_REQUEST['arrayContentString']))print_r($_REQUEST['arrayContentString']); ?>
+	
+	<p align="left"> 
 	
 <?php function getArray($enteredMatrixSize,$contentString)
 {
@@ -120,7 +122,7 @@
 	};
 	print_r("</table>");
 	
-	}
+};
 
 
 if(isset($_REQUEST['calculateButton'])) { 
