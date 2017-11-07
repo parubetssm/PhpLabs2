@@ -11,7 +11,7 @@
 	<div align="center"  width = "100%">
 		
 		<h4 align="left">¬ход€щие данные</h4>
-		<FORM method="POST" ACTION="index.php" align="left" >
+		<FORM method="POST" ACTION="index1.php" align="left" >
 			<p align="left"> ¬ведите значение 1-й переменной </br>
 				<input type="text" name="Variable1" size="10"></input>
 			<p align="left"> ¬ведите значение 2-й переменной </br>

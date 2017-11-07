@@ -11,7 +11,7 @@
 	<div align="center"  width = "100%">
 		
 		<h4 align="left">¬ход€щие данные</h4>
-		<FORM method="POST" ACTION="index.php" align="left" >
+		<FORM method="POST" ACTION="index2.php" align="left" >
 			<p align="left"> ¬ведите значение строки, раздел€€ числа и знаки математических оераций пробелами</br>
 				<input type="text" name="polishNotationString" size="10"></input>
 			

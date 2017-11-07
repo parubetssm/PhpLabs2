@@ -5,14 +5,14 @@
 
 <BODY>
 <div align="center" width = "100%">
-<h2>Лабораторная работа №6</h2>
+<h2>Лабораторная работа №5</h2>
 <h4 align="left">Задание</h4>
 <p align="left"> Создайте функцию, которая принимает входные данные 'n' (целое число) и возвращает строку, которая является десятичное представление этого числа сгруппированное запятыми после каждых 3 цифр. Вы не можете решить задачу с помощью встроенной функции форматирования, которая может выполнить все
 задачи самостоятельно.
 	<div align="center"  width = "100%">
 		
 		<h4 align="left">Входящие данные</h4>
-		<FORM method="POST" ACTION="index.php" align="left" >
+		<FORM method="POST" ACTION="index5.php" align="left" >
 			<p align="left"> Введите значение числа</br>
 				<input type="text" name="containNumberString" size="10"></input>
 			

@@ -11,7 +11,7 @@
 	<div align="center"  width = "100%">
 		
 		<h4 align="left">¬ход€щие данные</h4>
-		<FORM method="POST" ACTION="index.php" align="left" >
+		<FORM method="POST" ACTION="index3.php" align="left" >
 			<p align="left"> ¬ведите размерность массива</br>
 				<input type="text" name="arraySize" size="10"></input>
 			<p align="left"> ¬ведите строку дл€ заполнени€ массива</br>

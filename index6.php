@@ -50,23 +50,26 @@ function getAllAnagrams($angrammString)
 	$lowRegistrForSearchingString = strtolower($forSearchingString);
 	$anagramStringLenth = strlen($lowRegistrAngrammString);
 	
-	$lowRegistrAngrammStringArray = str_split($lowRegistrAngrammString);
-	asort($lowRegistrAngrammStringArray);
-	$sortLowRegistrAngrammString = implode("", $lowRegistrAngrammStringArray);
-	
-	print_r("<p align='left'> Найденные анаграммы: ");
-	
-	for($i = 0; $i <= strlen($lowRegistrForSearchingString) - 1 - $anagramStringLenth; $i++)
+	if(strlen(trim($lowRegistrAngrammString)) <> 0)
 	{
-		$fileCopySubstring = substr($lowRegistrForSearchingString, $i, $anagramStringLenth);
-		//print_r("<p align='left'>");print_r($i);print_r(" ");print_r($fileCopySubstring);
-		$arrayForSearching = str_split($fileCopySubstring);
-		asort($arrayForSearching);
-		$sortLowRegistrForSearchingSubstring = implode("", $arrayForSearching);
-		if (strcmp($sortLowRegistrForSearchingSubstring,$sortLowRegistrAngrammString) == 0)
+		$lowRegistrAngrammStringArray = str_split($lowRegistrAngrammString);
+		asort($lowRegistrAngrammStringArray);
+		$sortLowRegistrAngrammString = implode("", $lowRegistrAngrammStringArray);
+		
+		print_r("<p align='left'> Найденные анаграммы: ");
+		
+		for($i = 0; $i <= strlen($lowRegistrForSearchingString) - 1 - $anagramStringLenth; $i++)
 		{
-			//
-			print_r("<p align='left'>Позиия ");print_r(" ");print_r($i);print_r(" ");print_r($fileCopySubstring);print_r("; ");
+			$fileCopySubstring = substr($lowRegistrForSearchingString, $i, $anagramStringLenth);
+			//print_r("<p align='left'>");print_r($i);print_r(" ");print_r($fileCopySubstring);
+			$arrayForSearching = str_split($fileCopySubstring);
+			asort($arrayForSearching);
+			$sortLowRegistrForSearchingSubstring = implode("", $arrayForSearching);
+			if (strcmp($sortLowRegistrForSearchingSubstring,$sortLowRegistrAngrammString) == 0)
+			{
+				//
+				print_r("<p align='left'>Позиия ");print_r(" ");print_r($i);print_r(" ");print_r($fileCopySubstring);print_r("; ");
+			};
 		};
 	};
 };

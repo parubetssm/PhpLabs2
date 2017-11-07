@@ -15,7 +15,7 @@
 	<div align="center"  width = "100%">
 		
 		<h4 align="left">Входящие данные</h4>
-		<FORM method="POST" ACTION="index.php" align="left" >
+		<FORM method="POST" ACTION="index4.php" align="left" >
 			<p align="left"> Введите строку для заполнения массива, разделяя *елементы массива пробелами</br>
 				<input type="text" name="arrayString" size="35"></input>
 			<p align="center"> 
@@ -26,8 +26,12 @@
 
 	<div align="center"  width = "100%">
 	
+	
+	<h4  align="left"> Порядок решения</h4>
+		<p align='left'> Решал задачу долго, в перерывах между основной работой на коленке, зачастую не имея текста задачи под рукой. Обратив внимание на чертеж, почему-то уяснил, что вводимые числа обозначают крышу, а не углубления в ней. Исходя из этого стал решать именно такую чуть более сложную задачу. По заданному рельефу вычислить объем воды, который в этом рельефе может затеряться...
+Таким образом, введенный массив - это не глубины, а вершины. Угол наклона крыши учесть не успеваю. Есть 2 варианта этого учета. В обеих случаях знаю как ... и это не трудно... но уже не успею...
 		<h4  align="left"> Результаты работы скрипта</h4>
-
+		
 
 	
 <?php 
@@ -39,11 +43,6 @@ function getArray($contentString)
 	
 	$pools = array();
 	
-	//print_r($arraySize);print_r("yyyyyyy");print_r($_givenArray[0]);
-	
-	//if(count($_givenArray)<=2) ...
-	
-	
 	if ($arraySize < 3)
 	{
 		$pools = array();
@@ -54,14 +53,11 @@ function getArray($contentString)
 		$poolEnd = 1;
 		
 		// перебираем *елементы на предмет налиия правее них озер (pools); для каждого рассматриваемого
-		//*елемента находим ближайшее озеро (pool) справа от него
+		//*елемента фиксируем начало озера (pool) справа от этого элемента
 		while($poolStart <= $arraySize - 1)
 		//	идем слева направо вдоль *елементов массива, рассматривая текущий и следующий *елемент
 		{
-			// индекс *елемента области справа, лежащей ниже рассматриваемого *елемента
-			//$poolEndMax = -1;
-			
-			if($_givenArray[$poolStart]<=$_givenArray[$poolEnd])
+			if($_givenArray[$poolStart] <= $_givenArray[$poolEnd])
 			// Если правее рассматриваемого *елемента находится *елемент выше (Идем в область выше), то озера правее
 			// пока не намечается. В *етом слуае просто переходим к следующему *елементу
 			{
@@ -82,12 +78,11 @@ function getArray($contentString)
 			else
 			{	
 				// Если правее рассматриваемого *елемента находится *елемент меньше/ниже, то правее
-				// может быть озеро. В *етом случае Идем в/Спускаемся в/исследуем область ниже рассматриваемого *елемента 
+				// может быть озеро: начинается низина. В *етом случае Идем в/Спускаемся в/исследуем область ниже рассматриваемого *елемента 
 				// вплоть до нахождения правого берега
 				echo "s";
 				echo (string)$_givenArray[$poolStart]."(".(string)$poolStart.")"."|";
-				// проброс до минимума
-				
+				// проброс до ближайшего минимума
 				while(($poolEnd <= $arraySize - 1)&&($_givenArray[$poolEnd]<=$_givenArray[$poolEnd-1]))
 				{
 					echo (string)$_givenArray[$poolEnd]."(".(string)$poolEnd.")".":";
@@ -95,14 +90,15 @@ function getArray($contentString)
 				};
 				//echo (string)$_givenArray[$poolEnd]."(".(string)$poolEnd.")".":";
 				$poolEnd--;
-				if($poolEnd == $arraySize - 1)break; //if($poolEnd == $poolStart)break; 
+				// если проброс произошел до конца массива, то заканчиваем поиск луж
+				if($poolEnd == $arraySize - 1) break; 
 				$poolEndMax = $poolEnd;
-				while(($poolEnd < $arraySize - 1)&&($_givenArray[$poolStart] > $_givenArray[$poolEnd+1]))  //<=
+				while(($poolEnd < $arraySize - 1) && ($_givenArray[$poolStart] > $_givenArray[$poolEnd + 1]))  //<=
 				{
 					echo (string)$_givenArray[$poolEnd]."(".(string)$poolEnd.")".":";
 					echo "[".(string)$_givenArray[$poolEndMax]."(".(string)$poolEndMax.")"."]:";
 					$poolEnd++;
-					if($_givenArray[$poolEnd] > $_givenArray[$poolEndMax])$poolEndMax = $poolEnd;
+					if($_givenArray[$poolEnd] > $_givenArray[$poolEndMax]) $poolEndMax = $poolEnd;
 					
 					
 				};
@@ -175,59 +171,42 @@ function getArray($contentString)
 	print_r("<p align='left'");
 	print_r($pools);
 	
-	// уточняем левые границы озер/лужь
-	/* foreach($pools as $pool)
-	{
-		$leftBorder = $pool[1];
-		for($i=$pool[1]-1; $i>=$pool[0]; $i--)
-		{
-			if ($_givenArray[$i] >= $leftBorder)
-			{
-				$leftBorder = $_givenArray[$i];
-				break(1);
-			};
-		};
-		$pool[0] = $leftBorder;
-	};
-	print_r("<p align='left'");
-	print_r($pools);*/
-	
+	// уточняем левые границы озер/лужь, считаем объем лужи
+	print_r("<p align = 'left'> Найденные водоемы: ");
 	foreach($pools as $pool)
 	{
+		//уточнение левой границы озера
 		$rightBorder = $pool[1];
 		$k = $pool[1] - 1;
+		print_r("<p align='left'");print_r((string)$k);
 		while(($_givenArray[$k] < $_givenArray[$rightBorder]) && ($k <> $pool[0]))
 		{
-			$k--;
+			(int)$k--;
+			print_r("<p align='left'");print_r((string)$k);
 		};
-		$pool[0] = $rightBorder;
-	};
-	print_r("<p align='left'");
-	print_r($pools);
-	
-	foreach($pools as $pool)
-	{
-		if($_givenArray[$pool[0]] < $_givenArray[$pool[1]])$minBorder = $pool[0]; else $minBorder = $pool[1];
+		$pool[0] = $k;
 		
+		// выяснение нижнего берега озера
+		if($_givenArray[$pool[0]] < $_givenArray[$pool[1]]){$minBorder = $pool[0];} else {$minBorder = $pool[1];};
+		
+		// нахождение плоского объема лужи (площади сечения лужи)
 		(int)$s = 0;
-		for($k = $pool[0] + 1; $k < $pool[1]; $k++)
+		for($j = $pool[0] + 1; $j < $pool[1]; $j++)
 		{
-			$s = $s + $_givenArray[$minBorder] - $_givenArray[$k];
+			$s = $s + $_givenArray[$minBorder] - $_givenArray[$j];
 		};
 		
 		print_r("<p align = 'left'>");print_r("<p align = 'left'>");print_r((string)$_givenArray[$pool[0]]);print_r("[");print_r((string)$pool[0]);print_r("] - ");
-		print_r((string)$_givenArray[$pool[1]]);print_r("[");print_r((string)$pool[1]);print_r("] : ");print_r((string)$s);
+		print_r((string)$_givenArray[$pool[1]]);print_r("[");print_r((string)$pool[1]);print_r("] : Объем ");print_r((string)$s);
+		
 	};
-	
-	
-	
 	
 	
 }
 
 if(isset($_REQUEST['calculateButton'])) 
 { 
-	print_r("<p align='left'> Введенная строка-заполнитель: "); print_r($_REQUEST['arrayString']); 	print_r(" Длина массива "); print_r(count(explode(" ",trim($_REQUEST['arrayString'])))); 
+	print_r("<p align='left'> Введенная строка-заполнитель: "); print_r($_REQUEST['arrayString']); 	//print_r(" Длина массива "); print_r(count(explode(" ",trim($_REQUEST['arrayString'])))); 
 	
 	print_r("<p align='left'>");
 	
